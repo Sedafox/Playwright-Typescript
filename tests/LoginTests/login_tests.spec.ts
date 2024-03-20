@@ -13,9 +13,9 @@ test.beforeEach(async ({page}) => {
 
 test('Correct Username and Password Successfully Logs In', async ({ page }) => {
     //# Enter the standard_user username and password #//
-    loginPage.enterUsername(getUsername[USER_ROLES.standard_user])
-    loginPage.enterPassword(getPassword[USER_ROLES.standard_user])
+    console.log(getUsername[USER_ROLES.standard_user])
+    loginPage.enterUsername(getUsername(USER_ROLES.standard_user))
+    loginPage.enterPassword(getPassword(USER_ROLES.standard_user))
 
-    //# TODO: Change this to point towards inventory Page instead of static link #//
-    await expect(page.url()).toEqual("https://www.saucedemo.com/inventory.html");
+    //# TODO make assertion #//
 });

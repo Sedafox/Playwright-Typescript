@@ -1,18 +1,24 @@
 import { InventoryPage } from "./Pages/InventoryPage";
 import { LoginPage } from "./Pages/LoginPage";
-import { test as base } from "@playwright/test";
+import { test as base, Page } from "@playwright/test";
+import { USER_ROLES, getUsername, getPassword } from "./users";
 
 export const test = base.extend<{
-  loginPage: LoginPage;
-  inventoryPage: InventoryPage;
-  goToLoginPage: void;
+  pages: { loginPage: LoginPage; inventoryPage: InventoryPage };
+  signInAsUser: (user: USER_ROLES) => Promise<void>;
 }>({
-  loginPage: async ({ page }, use) => {
-    const loginPage = new LoginPage(page);
-    await use(loginPage);
+  pages: async ({ page }: { page: Page }, use) => {
+    const pages = {
+      loginPage: new LoginPage(page),
+      inventoryPage: new InventoryPage(page),
+    };
+    await use(pages);
   },
-  inventoryPage: async ({ page }, use) => {
-    const inventoryPage = new InventoryPage(page);
-    await use(inventoryPage);
+
+  signInAsUser: async ({ pages }, use) => {
+    const signInAsUser = async (user: USER_ROLES) => {
+      await pages.loginPage.login(getUsername(user), getPassword(user));
+    };
+    await use(signInAsUser);
   },
 });

@@ -44,6 +44,14 @@ export class LoginPage {
 
   //# -- Functions -- #//
 
+  //# Login Completely #//
+  async login(username: string, password: string) {
+    await this.goToLogin();
+    await this.enterUsername(username);
+    await this.enterPassword(password);
+    await this.clickLogin();
+  }
+
   // #region Navigation Functions
 
   //# Navigate to the Login Page #//

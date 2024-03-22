@@ -2,33 +2,31 @@ import { baseURL } from "./Base";
 import { Page, Locator } from "@playwright/test";
 
 export class LoginPage {
+  //# Locators #//
+  private usernameInput: Locator;
+  private passwordInput: Locator;
 
-    //# Locators #//
-    private usernameInput: Locator;
-    private passwordInput: Locator;
+  //# Other #//
+  private page: Page;
+  private loginPageURL = baseURL;
 
-    //# Other #//
-    private page: Page;
-    private loginPageURL = baseURL
+  constructor(page: Page) {
+    this.page = page;
+    this.usernameInput = page.locator("input#user-name");
+    this.passwordInput = page.locator("input#password");
+  }
 
-    constructor(page: Page){
-        this.page = page;
-        this.usernameInput = page.locator("#user-name")
-        this.passwordInput = page.locator("#password")
-    }
+  //# Functions #//
 
-    //# Functions #//
+  async goToLogin() {
+    await this.page.goto(this.loginPageURL);
+  }
 
-    async goToLogin(){
-        await this.page.goto(this.loginPageURL);
-    }
+  async enterUsername(username: string) {
+    await this.usernameInput.fill(username);
+  }
 
-    enterUsername(username: string){
-        this.usernameInput.fill(username);
-    }
-
-    enterPassword(password: string){
-        this.passwordInput.fill(password);
-    }
-
+  async enterPassword(password: string) {
+    await this.passwordInput.fill(password);
+  }
 }

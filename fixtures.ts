@@ -9,7 +9,6 @@ export const test = base.extend<{
 }>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
-    await loginPage.goToLogin();
     await use(loginPage);
   },
   inventoryPage: async ({ page }, use) => {

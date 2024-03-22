@@ -1,18 +1,15 @@
 import { InventoryPage } from "./Pages/InventoryPage";
 import { LoginPage } from "./Pages/LoginPage";
-import { test as base } from "@playwright/test";
+import { test as base, Page } from "@playwright/test";
 
 export const test = base.extend<{
-  loginPage: LoginPage;
-  inventoryPage: InventoryPage;
-  goToLoginPage: void;
+  pages: { loginPage: LoginPage; inventoryPage: InventoryPage };
 }>({
-  loginPage: async ({ page }, use) => {
-    const loginPage = new LoginPage(page);
-    await use(loginPage);
-  },
-  inventoryPage: async ({ page }, use) => {
-    const inventoryPage = new InventoryPage(page);
-    await use(inventoryPage);
+  pages: async ({ page }: { page: Page }, use) => {
+    const pages = {
+      loginPage: new LoginPage(page),
+      inventoryPage: new InventoryPage(page),
+    };
+    await use(pages);
   },
 });

@@ -20,7 +20,9 @@ test.beforeEach(async ({ page }) => {
   await loginPage.goToLogin();
 });
 
-test("Correct Username and Password Successfully Logs In", async ({ page }) => {
+test("standard_user Username and Password Successfully Logs In", async ({
+  page,
+}) => {
   //# Enter the standard_user username and password #//
   await loginPage.enterUsername(getUsername(USER_ROLES.standard_user));
   await loginPage.enterPassword(getPassword(USER_ROLES.standard_user));
@@ -30,4 +32,21 @@ test("Correct Username and Password Successfully Logs In", async ({ page }) => {
 
   //# Expect the Product Span from the Inventory Page to be Visible #//
   await expect(inventoryPage.productsSpan).toBeVisible();
+});
+
+test("locked_out_user Username and Password is Unable to Login and Sees Error Message", async ({
+  page,
+}) => {
+  //# Enter the locked_out_user username and password #//
+  await loginPage.enterUsername(getUsername(USER_ROLES.locked_out_user));
+  await loginPage.enterPassword(getPassword(USER_ROLES.locked_out_user));
+
+  //# Press the Login Button #//
+  await loginPage.clickLogin();
+
+  //# Expect the Epic sadface message to appear #//
+  await expect(loginPage.lockedOutErrorMessage).toBeVisible();
+
+  //# Expect the url to still be the login page #//
+  await expect(page.url()).toEqual(loginPage.loginPageURL);
 });

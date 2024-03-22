@@ -11,9 +11,13 @@ export class LoginPage {
   private passwordInput: Locator;
   // #endregion
 
+  // #region Text Locators
+  lockedOutErrorMessage: Locator;
+  // #endregion
+
   // #region Other Variables
   private page: Page;
-  private loginPageURL = baseURL;
+  loginPageURL = `${baseURL}/`;
   // #endregion
 
   constructor(page: Page) {
@@ -26,6 +30,9 @@ export class LoginPage {
     //# Inputs #//
     this.usernameInput = page.locator("input#user-name");
     this.passwordInput = page.locator("input#password");
+
+    //# Text #//
+    this.lockedOutErrorMessage = page.locator("h3[data-test='error']");
   }
 
   //# -- Functions -- #//

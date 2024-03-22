@@ -1,6 +1,5 @@
 //# Dependencies #//
 import { expect } from "@playwright/test";
-import { test } from "../../fixtures";
 
 //# Pages #//
 import { LoginPage } from "../../Pages/LoginPage";
@@ -8,6 +7,7 @@ import { InventoryPage } from "../../Pages/InventoryPage";
 
 //# Local Dependencies #//
 import { getUsername, getPassword, USER_ROLES } from "../../users";
+import { test } from "../../fixtures";
 
 test("standard_user Username and Password Successfully Logs In", async ({
   loginPage,

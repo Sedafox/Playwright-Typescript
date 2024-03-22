@@ -1,5 +1,6 @@
 //# Dependencies #//
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test as base } from "@playwright/test";
 
 //# Pages #//
 import { LoginPage } from "../../Pages/LoginPage";
@@ -8,20 +9,24 @@ import { InventoryPage } from "../../Pages/InventoryPage";
 //# Local Dependencies #//
 import { getUsername, getPassword, USER_ROLES } from "../../users";
 
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
-
-test.beforeEach(async ({ page }) => {
-  //# Instantiate Pages #//
-  loginPage = new LoginPage(page);
-  inventoryPage = new InventoryPage(page);
-
-  //# Go to the Login Page #//
-  await loginPage.goToLogin();
+const test = base.extend<{
+  loginPage: LoginPage;
+  inventoryPage: InventoryPage;
+}>({
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goToLogin();
+    await use(loginPage);
+  },
+  inventoryPage: async ({ page }, use) => {
+    const inventoryPage = new InventoryPage(page);
+    await use(inventoryPage);
+  },
 });
 
 test("standard_user Username and Password Successfully Logs In", async ({
-  page,
+  loginPage,
+  inventoryPage,
 }) => {
   //# Enter the standard_user username and password #//
   await loginPage.enterUsername(getUsername(USER_ROLES.standard_user));
@@ -35,6 +40,7 @@ test("standard_user Username and Password Successfully Logs In", async ({
 });
 
 test("Entering the standard_user Username and an Incorrect Password Displays 'Username and password do not match' ", async ({
+  loginPage,
   page,
 }) => {
   //# Enter the standard_user username and password #//
@@ -52,6 +58,7 @@ test("Entering the standard_user Username and an Incorrect Password Displays 'Us
 });
 
 test("locked_out_user Username and Password is Unable to Login and Sees Error Message", async ({
+  loginPage,
   page,
 }) => {
   //# Enter the locked_out_user username and password #//

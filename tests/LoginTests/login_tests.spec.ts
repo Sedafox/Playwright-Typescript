@@ -1,6 +1,6 @@
 //# Dependencies #//
 import { expect } from "@playwright/test";
-import { test as base } from "@playwright/test";
+import { test } from "../../fixtures";
 
 //# Pages #//
 import { LoginPage } from "../../Pages/LoginPage";
@@ -9,25 +9,13 @@ import { InventoryPage } from "../../Pages/InventoryPage";
 //# Local Dependencies #//
 import { getUsername, getPassword, USER_ROLES } from "../../users";
 
-const test = base.extend<{
-  loginPage: LoginPage;
-  inventoryPage: InventoryPage;
-}>({
-  loginPage: async ({ page }, use) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goToLogin();
-    await use(loginPage);
-  },
-  inventoryPage: async ({ page }, use) => {
-    const inventoryPage = new InventoryPage(page);
-    await use(inventoryPage);
-  },
-});
-
 test("standard_user Username and Password Successfully Logs In", async ({
   loginPage,
   inventoryPage,
 }) => {
+  //# Go to the Login Page #//
+  await loginPage.goToLogin();
+
   //# Enter the standard_user username and password #//
   await loginPage.enterUsername(getUsername(USER_ROLES.standard_user));
   await loginPage.enterPassword(getPassword(USER_ROLES.standard_user));
@@ -43,6 +31,9 @@ test("Entering the standard_user Username and an Incorrect Password Displays 'Us
   loginPage,
   page,
 }) => {
+  //# Go to the Login Page #//
+  await loginPage.goToLogin();
+
   //# Enter the standard_user username and password #//
   await loginPage.enterUsername(getUsername(USER_ROLES.standard_user));
   await loginPage.enterPassword("This is the wrong password!");
@@ -61,6 +52,9 @@ test("locked_out_user Username and Password is Unable to Login and Sees Error Me
   loginPage,
   page,
 }) => {
+  //# Go to the Login Page #//
+  await loginPage.goToLogin();
+
   //# Enter the locked_out_user username and password #//
   await loginPage.enterUsername(getUsername(USER_ROLES.locked_out_user));
   await loginPage.enterPassword(getPassword(USER_ROLES.locked_out_user));

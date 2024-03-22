@@ -1,10 +1,6 @@
 //# Dependencies #//
 import { expect } from "@playwright/test";
 
-//# Pages #//
-import { LoginPage } from "../../Pages/LoginPage";
-import { InventoryPage } from "../../Pages/InventoryPage";
-
 //# Local Dependencies #//
 import { getUsername, getPassword, USER_ROLES } from "../../users";
 import { test } from "../../fixtures";

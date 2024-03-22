@@ -13,6 +13,7 @@ export class LoginPage {
 
   // #region Text Locators
   lockedOutErrorMessage: Locator;
+  incorrectLoginInfoMessage: Locator;
   // #endregion
 
   // #region Other Variables
@@ -32,7 +33,13 @@ export class LoginPage {
     this.passwordInput = page.locator("input#password");
 
     //# Text #//
-    this.lockedOutErrorMessage = page.locator("h3[data-test='error']");
+    this.lockedOutErrorMessage = page.locator(
+      "h3[data-test='error']:has-text('Sorry, this user has been locked out')"
+    );
+
+    this.incorrectLoginInfoMessage = page.locator(
+      "h3[data-test='error']:has-text('Username and password do not match')"
+    );
   }
 
   //# -- Functions -- #//

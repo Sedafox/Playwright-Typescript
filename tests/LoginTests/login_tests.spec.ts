@@ -47,19 +47,16 @@ test("Entering the standard_user Username and an Incorrect Password Displays 'Us
   await expect(page.url()).toEqual(pages.loginPage.loginPageURL);
 });
 
+
+ //# This test demonstrates how to use the test fixture to login as a locked_out_user #//
+test.use({ userType: USER_ROLES.locked_out_user });
 test("locked_out_user Username and Password is Unable to Login and Sees Error Message", async ({
   pages,
   page,
+  signInAsUser,
 }) => {
   //# Go to the Login Page #//
-  await pages.loginPage.goToLogin();
-
-  //# Enter the locked_out_user username and password #//
-  await pages.loginPage.enterUsername(getUsername(USER_ROLES.locked_out_user));
-  await pages.loginPage.enterPassword(getPassword(USER_ROLES.locked_out_user));
-
-  //# Press the Login Button #//
-  await pages.loginPage.clickLogin();
+  signInAsUser;
 
   //# Expect the Epic sadface locked-out message to appear #//
   await expect(pages.loginPage.lockedOutErrorMessage).toBeVisible();

@@ -18,7 +18,7 @@ export const test = base.extend<{
 
   userType: async ({}, use) => {
     // Set the user type for each test
-    const userType = USER_ROLES.locked_out_user;
+    const userType = USER_ROLES.standard_user;
     await use(userType);
   },
 

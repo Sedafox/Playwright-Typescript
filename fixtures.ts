@@ -5,7 +5,8 @@ import { USER_ROLES, getUsername, getPassword } from "./users";
 
 export const test = base.extend<{
   pages: { loginPage: LoginPage; inventoryPage: InventoryPage };
-  signInAsUser: (user: USER_ROLES) => Promise<void>;
+  userType: USER_ROLES;
+  signInAsUser: void;
 }>({
   pages: async ({ page }: { page: Page }, use) => {
     const pages = {
@@ -15,10 +16,14 @@ export const test = base.extend<{
     await use(pages);
   },
 
-  signInAsUser: async ({ pages }, use) => {
-    const signInAsUser = async (user: USER_ROLES) => {
-      await pages.loginPage.login(getUsername(user), getPassword(user));
-    };
-    await use(signInAsUser);
+  userType: async ({}, use) => {
+    // Set the user type for each test
+    const userType = USER_ROLES.standard_user;
+    await use(userType);
+  },
+
+  signInAsUser: async ({ pages, userType }, use) => {
+    await pages.loginPage.login(getUsername(userType), getPassword(userType));
+    await use();
   },
 });

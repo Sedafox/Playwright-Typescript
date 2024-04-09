@@ -17,7 +17,7 @@ export const test = base.extend<{
   },
 
   userType: async ({}, use) => {
-    // Set the user type for each test
+    // Set the user type for each test (Default is standard_user, can be changed with the const below)
     const userType = USER_ROLES.standard_user;
     await use(userType);
   },

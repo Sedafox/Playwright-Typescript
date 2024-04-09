@@ -4,7 +4,7 @@ import { test as base, Page } from "@playwright/test";
 import { USER_ROLES, getUsername, getPassword } from "./users";
 
 export const test = base.extend<{
-  pages: { loginPage: LoginPage; inventoryPage: InventoryPage };
+  pages: { loginPage: LoginPage; inventoryPage: InventoryPage; page: Page };
   userType: USER_ROLES;
   signInAsUser: void;
 }>({
@@ -12,6 +12,7 @@ export const test = base.extend<{
     const pages = {
       loginPage: new LoginPage(page),
       inventoryPage: new InventoryPage(page),
+      page: page,
     };
     await use(pages);
   },

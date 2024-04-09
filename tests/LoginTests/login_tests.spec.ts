@@ -1,10 +1,6 @@
 //# Dependencies #//
 import { expect } from "@playwright/test";
 
-//# Pages #//
-import { LoginPage } from "../../Pages/LoginPage";
-import { InventoryPage } from "../../Pages/InventoryPage";
-
 //# Local Dependencies #//
 import { getUsername, getPassword, USER_ROLES } from "../../users";
 import { test } from "../../fixtures";
@@ -28,7 +24,6 @@ test("standard_user Username and Password Successfully Logs In", async ({
 
 test("Entering the standard_user Username and an Incorrect Password Displays 'Username and password do not match' ", async ({
   pages,
-  page,
 }) => {
   //# Go to the Login Page #//
   await pages.loginPage.goToLogin();
@@ -44,7 +39,7 @@ test("Entering the standard_user Username and an Incorrect Password Displays 'Us
   await expect(pages.loginPage.incorrectLoginInfoMessage).toBeVisible();
 
   //# Expect the url to still be the login page #//
-  await expect(page.url()).toEqual(pages.loginPage.loginPageURL);
+  await expect(pages.page.url()).toEqual(pages.loginPage.loginPageURL);
 });
 
 
@@ -52,7 +47,6 @@ test("Entering the standard_user Username and an Incorrect Password Displays 'Us
 test.use({ userType: USER_ROLES.locked_out_user });
 test("locked_out_user Username and Password is Unable to Login and Sees Error Message", async ({
   pages,
-  page,
   signInAsUser,
 }) => {
   //# Go to the Login Page #//
@@ -62,5 +56,5 @@ test("locked_out_user Username and Password is Unable to Login and Sees Error Me
   await expect(pages.loginPage.lockedOutErrorMessage).toBeVisible();
 
   //# Expect the url to still be the login page #//
-  await expect(page.url()).toEqual(pages.loginPage.loginPageURL);
+  await expect(pages.page.url()).toEqual(pages.loginPage.loginPageURL);
 });

@@ -18,7 +18,6 @@ For example, to log in as a `locked_out_user`, you can use the following code:
 test.use({ userType: USER_ROLES.locked_out_user });
 test("locked_out_user Username and Password is Unable to Login and Sees Error Message", async ({
   pages,
-  page,
   signInAsUser,
 }) => {
   //# Go to the Login Page #//
@@ -28,7 +27,7 @@ test("locked_out_user Username and Password is Unable to Login and Sees Error Me
   await expect(pages.loginPage.lockedOutErrorMessage).toBeVisible();
 
   //# Expect the url to still be the login page #//
-  await expect(page.url()).toEqual(pages.loginPage.loginPageURL);
+  await expect(pages.page.url()).toEqual(pages.loginPage.loginPageURL);
 });
 ```
 
